@@ -7,8 +7,11 @@ export function getArtifacts(searchValue){
             return response.json();
         }
     })
-    .then(data => console.log(data.data))
+    .then(data => console.log("CAT DATA: ", data.data))
 }
+
+//arrayOfIds = map(data => data.id)
+//arrayOfIds.ForEach(ID => fetch )
 
 
 export function getArtifactInfo(artifactId){
@@ -23,18 +26,17 @@ export function getArtifactInfo(artifactId){
     .then(data => console.log("ARTIFACT INFO: ", data.data))
 }
 
-
-export function getImage(identifier){
-    return fetch(`https://www.artic.edu/iiif/2/${identifier}/full/843,/0/default.jpg`)
-    .then(response =>{
-        if(!response.ok){
-           throw new Error ('Something has gone wrong at a JSON level');
-        } else {
-            return response.json();
-        }
-    })
-    .then(data => console.log("IMAGE DATA: ", data))
-}
+// export function getImage(identifier){
+//     return fetch(`https://www.artic.edu/iiif/2/${identifier}/full/843,/0/default.jpg`)
+//     .then(response =>{
+//         if(!response.ok){
+//            throw new Error ('Something has gone wrong at a JSON level');
+//         } else {
+//             return response.json();
+//         }
+//     })
+//     .then(data => console.log("IMAGE DATA: ", data))
+// }
 
 
 //When downloading images, use /full/843,/0/default.jpg parameters.

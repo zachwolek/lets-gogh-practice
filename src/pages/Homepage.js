@@ -1,5 +1,7 @@
-export function Homepage(){
+export function Homepage({artifacts}){
     return (
-        <></>
+        <>
+            
+        </>
     )
 }
