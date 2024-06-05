@@ -1,7 +1,6 @@
 import '../pages/Card.css'
 
 export function Card({id, key, image_id, title}){
-    console.log("TITLE: ", title)
     return(
         <div class="artifact-card">
             <h3 classname='title'>{title}</h3>

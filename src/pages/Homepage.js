@@ -1,7 +1,6 @@
 import { Card } from "./Card"
 
 function Homepage({artifacts}){
-    console.log("ARTIFACTS HOMEPAGE: ", artifacts)
     const artifactsCards = artifacts.map(artifact => {
     return (
        <Card 

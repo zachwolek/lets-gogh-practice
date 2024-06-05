@@ -1,5 +1,5 @@
 export function getHomepage(){
-    return fetch(`https://api.artic.edu/api/v1/artworks/`)
+    return fetch(`https://api.artic.edu/api/v1/artworks/search?q=nude`)
 }
 
 
@@ -38,13 +38,5 @@ export function getDisplayInfo(artifactIds){
     artifactIds.forEach(id =>{
         return fetch(`https://api.artic.edu/api/v1/artworks/${id}?fields=id,title,image_id`)
     })
-   
-    // .then(response =>{
-    //     if(!response.ok){
-    //        throw new Error ('Something has gone wrong at a JSON level');
-    //     } else {
-    //         return response.json();
-    //     }
-    // })
-    // .then(data => console.log("ARTIFACT INFO: ", data.data))
+
 }
