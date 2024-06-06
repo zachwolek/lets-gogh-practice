@@ -1,23 +1,46 @@
 export function getHomepage(){
-    return fetch(`https://api.artic.edu/api/v1/artworks/search?q=nude`)
+    return fetch(`https://api.artic.edu/api/v1/artworks/search?q=cats`)
+    .then(response => getArtifactIds(response))
+    .then(artifactIds => getFetchPromises(artifactIds))
 }
 
 
 export function getArtifacts(searchValue){
     return fetch(`https://api.artic.edu/api/v1/artworks/search?q=${searchValue}`)
-    .then(response =>{
-        if(!response.ok){
-           throw new Error ('Something has gone wrong at a JSON level');
-        } else {
-            return response.json();
-        }
-    })
-    .then(data => data.data)
+    .then(response => getArtifactIds(response))
+    .then(artifactIds => getFetchPromises(artifactIds))
 }
 
-//arrayOfIds = map(data => data.id)
-//arrayOfIds.ForEach(ID => fetch )
+export function getArtifactIds(response){
+    if(!response.ok){
+        throw new Error ('Something has gone wrong at a JSON level');
+     } else {
+         return response.json()
+         .then(data => {
+            const artifactIds = data.data.map(data => data.id)
+            return artifactIds
+          })
+     }
+}
 
+function getFetchPromises(artifactIds){
+    const fetchPromises = artifactIds.map(id => 
+    fetch(`https://api.artic.edu/api/v1/artworks/${id}?fields=id,title,image_id`)
+        .then(response => {
+        if (!response.ok) {
+            throw new Error(`Error fetching data for ID ${id}`);
+        }
+        return response.json();
+        })
+        .then(data => data.data)
+    )
+    return Promise.all(fetchPromises)
+    //promises get resolved here
+}
+
+
+
+//GetDisplayInfo()
 
 const artifactIds = [
     147721,
@@ -33,10 +56,3 @@ const artifactIds = [
     267846,
     147067
 ]
-
-export function getDisplayInfo(artifactIds){
-    artifactIds.forEach(id =>{
-        return fetch(`https://api.artic.edu/api/v1/artworks/${id}?fields=id,title,image_id`)
-    })
-
-}

@@ -15,33 +15,21 @@ function searchArtifacts(searchValue){
 
 useEffect(() => {
   getHomepage()
-  .then(response =>{
-    if(!response.ok){
-       throw new Error ('Something has gone wrong at a JSON level');
-    } else {
-        return response.json();
-    }
-  })
-  .then(data => {
-    const artifactIds = data.data.map(data => data.id)
-    //this holds an array of all IDS
-    return artifactIds
-  })
-  .then(artifactIds => { 
-    const fetchPromises = artifactIds.map(id => 
-      //This creates an array of promises
-    fetch(`https://api.artic.edu/api/v1/artworks/${id}?fields=id,title,image_id`)
-      .then(response => {
-        if (!response.ok) {
-          throw new Error(`Error fetching data for ID ${id}`);
-        }
-        return response.json();
-      })
-      .then(data => data.data)
-    )
-    return Promise.all(fetchPromises)
-    //promises get resolved here
-  })
+  // .then(artifactIds => { 
+  //   const fetchPromises = artifactIds.map(id => 
+  //     //This creates an array of promises
+  //   fetch(`https://api.artic.edu/api/v1/artworks/${id}?fields=id,title,image_id`)
+  //     .then(response => {
+  //       if (!response.ok) {
+  //         throw new Error(`Error fetching data for ID ${id}`);
+  //       }
+  //       return response.json();
+  //     })
+  //     .then(data => data.data)
+  //   )
+  //   return Promise.all(fetchPromises)
+  //   //promises get resolved here
+  // })
   .then(data => setArtifacts(data))
   //this sets all the image data of each API request
 })

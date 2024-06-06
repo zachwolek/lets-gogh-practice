@@ -7,11 +7,10 @@ export function Form({getArtifacts}){
     function displaySearch(e){
         e.preventDefault()
             const newSearch = {
-                id: Date.now(),
                 searchValue
             }
-            console.log("NEW SEARCH", newSearch)
             getArtifacts(newSearch)
+            .then()
             clearInput()
     }
 
@@ -34,6 +33,3 @@ export function Form({getArtifacts}){
         </form>
     )
 }
-
-//onclick what is this doing
-//It is sending a variable to the search
