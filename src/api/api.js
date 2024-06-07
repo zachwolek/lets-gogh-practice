@@ -1,34 +1,58 @@
+export function getHomepage(){
+    return fetch(`https://api.artic.edu/api/v1/artworks/search?q=cats`)
+    .then(response => getArtifactIds(response))
+    .then(artifactIds => getFetchPromises(artifactIds))
+}
+
+
 export function getArtifacts(searchValue){
     return fetch(`https://api.artic.edu/api/v1/artworks/search?q=${searchValue}`)
-    .then(response =>{
-        if(!response.ok){
-           throw new Error ('Something has gone wrong at a JSON level');
-        } else {
-            return response.json();
-        }
-    })
-    .then(data => data.data)
+    .then(response => getArtifactIds(response))
+    .then(artifactIds => getFetchPromises(artifactIds))
 }
 
-//arrayOfIds = map(data => data.id)
-//arrayOfIds.ForEach(ID => fetch )
-
-export function getArtifactInfo(artifactId){
-    return fetch(`https://api.artic.edu/api/v1/artworks/${artifactId}?fields=id,title,image_id`)
-    .then(response =>{
-        if(!response.ok){
-           throw new Error ('Something has gone wrong at a JSON level');
-        } else {
-            return response.json();
-        }
-    })
-    .then(data => console.log("ARTIFACT INFO: ", data.data))
+export function getArtifactIds(response){
+    if(!response.ok){
+        throw new Error ('Something has gone wrong at a JSON level');
+     } else {
+         return response.json()
+         .then(data => {
+            const artifactIds = data.data.map(data => data.id)
+            return artifactIds
+          })
+     }
 }
 
-//When downloading images, use /full/843,/0/default.jpg parameters.
+function getFetchPromises(artifactIds){
+    const fetchPromises = artifactIds.map(id => 
+    fetch(`https://api.artic.edu/api/v1/artworks/${id}?fields=id,title,image_id`)
+        .then(response => {
+        if (!response.ok) {
+            throw new Error(`Error fetching data for ID ${id}`);
+        }
+        return response.json();
+        })
+        .then(data => data.data)
+    )
+    return Promise.all(fetchPromises)
+    //promises get resolved here
+}
 
-//example search:
-//https://api.artic.edu/api/v1/artworks/search?q=cats
 
-//example image:
-//https://www.artic.edu/iiif/2/1adf2696-8489-499b-cad2-821d7fde4b33/full/843,/0/default.jpg
+
+//GetDisplayInfo()
+
+const artifactIds = [
+    147721,
+    265943,
+    47608,
+    153798,
+    81558,
+    52668,
+    4705,
+    4706,
+    267736,
+    268228,
+    267846,
+    147067
+]

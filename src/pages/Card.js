@@ -1,10 +1,9 @@
 import '../pages/Card.css'
 
 export function Card({id, key, image_id, title}){
-    console.log("TITLE: ", title)
     return(
         <div class="artifact-card">
-            <li classname='title'>{title}</li>
+            <h3 classname='title'>{title}</h3>
             <div classname='image-container image-preview'>
                 <img alt={`Thumbnail photo for ${title} display`} src={`https://www.artic.edu/iiif/2/${image_id}/full/250,/0/default.jpg`}/>
             </div>

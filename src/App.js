@@ -1,20 +1,44 @@
 import { useState, useEffect } from 'react';
 import './App.css';
 import Homepage from './pages/Homepage';
-import { getArtifacts, getImage, getArtifactInfo } from './api/api';
-import { testData } from './test-data'
+import { getArtifacts, getDisplayInfo, getHomepage } from './api/api';
+import { testData } from './test-data';
+import { Form } from './Form/Form';
 
 function App() {
-const [artifacts, setArtifacts] = useState(testData)
+const [artifacts, setArtifacts] = useState([])
 
-getArtifacts('cats').then((catResults)=>{
-  console.log("CAT RESULTS HERE: ", catResults)
-})
+function searchArtifacts(searchValue){
+    setArtifacts(searchValue)
+}
 //When you do a FETCH call, 
+
+useEffect(() => {
+  getHomepage()
+  // .then(artifactIds => { 
+  //   const fetchPromises = artifactIds.map(id => 
+  //     //This creates an array of promises
+  //   fetch(`https://api.artic.edu/api/v1/artworks/${id}?fields=id,title,image_id`)
+  //     .then(response => {
+  //       if (!response.ok) {
+  //         throw new Error(`Error fetching data for ID ${id}`);
+  //       }
+  //       return response.json();
+  //     })
+  //     .then(data => data.data)
+  //   )
+  //   return Promise.all(fetchPromises)
+  //   //promises get resolved here
+  // })
+  .then(data => setArtifacts(data))
+  //this sets all the image data of each API request
+})
 
   return (
       <>
         <header id='header'>Let's Gogh</header>
+        <h2 id='subheader'>To the Art Institute of Chicago</h2>
+        <Form getArtifacts={getArtifacts}/>
         <Homepage artifacts={artifacts}/>
       </>
   );
